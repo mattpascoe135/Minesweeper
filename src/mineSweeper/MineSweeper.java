@@ -47,7 +47,7 @@ public class MineSweeper {
 		//Error checking
 		if(args.length != 2){
 			System.out.println("Invalid number of arguments should be: "
-					+ "SpaceProbe n x1 y1 x2 y2");
+					+ "Minesweeper n mines");
 			return;
 		}
 		for(int i=0; i<2; i++){
@@ -120,31 +120,32 @@ public class MineSweeper {
 								for(int j=0; j<n; j++){
 									if(displayGrid[i][j] == e.getSource()){
 										if(grid[i][j] == '*'){
-											timer.stop();
-											System.out.println("Woops: " + i + ", " + j);
-											displayGrid[i][j].setText("*");
-											displayGrid[i][j].setBackground(Color.RED);
-											for(int x=0; x<n; x++){
-												for(int y=0; y<n; y++){
-													if(grid[x][y] == '*'){
-														displayGrid[x][y].setText("*");
-													}
-												}
-											}
-											int dialogButton = JOptionPane.YES_NO_OPTION;
-											int dialogResult = JOptionPane.showConfirmDialog(null, "You lost, would you like to play again?", "Game Over", dialogButton);
-											if(dialogResult==0){
-												generateMinefield();
+											if(displayGrid[i][j].getText() != "F"){
+												timer.stop();
+												displayGrid[i][j].setText("*");
+												displayGrid[i][j].setBackground(Color.RED);
 												for(int x=0; x<n; x++){
 													for(int y=0; y<n; y++){
-														displayGrid[x][y].setText("");
-														displayGrid[x][y].setBackground(null);
-														displayGrid[x][y].setEnabled(true);
+														if(grid[x][y] == '*'){
+															displayGrid[x][y].setText("*");
+														}
 													}
 												}
-												safeTiles = 0;
-											}else{
-												frame.dispose();
+												int dialogButton = JOptionPane.YES_NO_OPTION;
+												int dialogResult = JOptionPane.showConfirmDialog(null, "You lost, would you like to play again?", "Game Over", dialogButton);
+												if(dialogResult==0){
+													generateMinefield();
+													for(int x=0; x<n; x++){
+														for(int y=0; y<n; y++){
+															displayGrid[x][y].setText("");
+															displayGrid[x][y].setBackground(null);
+															displayGrid[x][y].setEnabled(true);
+														}
+													}
+													safeTiles = 0;
+												}else{
+													frame.dispose();
+												}
 											}
 										}else{
 											if(safeTiles == 0){
